@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (Auth::check())
+        {{ AUth::user()->name }}
+
+    @else
     <div class="center jumbotron">
         <div class="text-center">
             <h1>Welcome to the Microposts</h1>
