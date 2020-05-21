@@ -46,4 +46,18 @@ class MicropostsController extends Controller
 
         return back();
     }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request,[
+            'content' => 'required|max:191',
+        ]);
+
+        $micropost = \App\Micropost::find($id);
+        $micropost->content = $request->content;
+        $micropost->save();
+
+        return back();
+
+    }
 }

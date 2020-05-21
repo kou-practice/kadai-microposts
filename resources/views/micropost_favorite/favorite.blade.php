@@ -18,6 +18,9 @@
                                 @include('micropost_favorite.favorite_button',['micropost'=>$favoriting->id])
                             </div>
                             <div>
+                                @include('microposts.edit',['micropost' => $favoriting])
+                            </div>
+                            <div>
                                 @include('microposts.delete_button',['micropost' => $favoriting])
                             </div>
                     </div>
