@@ -14,7 +14,9 @@ class AddAgeProfileAddressToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->integer('age')->unsigned()->nullable($value = true);
+            $table->string('profile')->nullable($value = true);
+            $table->string('address')->nullable($value = true);
         });
     }
 

@@ -23,18 +23,22 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 // ユーザ機能
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+Route::group(['middleware' => ['auth','can:user-higher']],function() {
+    Route::group(['middleware' => 'auth'], function () {
+        Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'update', 'edit', 'destroy']]);
 
-    Route::group(['prefix' => 'users/{id}'], function () {
-        Route::post('follow', 'UserFollowController@store')->name('user.follow');
-        Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
-        Route::get('followings', 'UsersController@followings')->name('users.followings');
-        Route::get('followers', 'UsersController@followers')->name('users.followers');
-        Route::post('favorite', 'UserFavoriteController@store')->name('user.favorite');
-        Route::delete('unfavorite', 'UserFavoriteController@destroy')->name('user.unfavorite');
-        Route::get('favoritings', 'UsersController@favoritings')->name('user.favoritings');
+
+        Route::group(['prefix' => 'users/{id}'], function () {
+            Route::post('follow', 'UserFollowController@store')->name('user.follow');
+            Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
+            Route::get('followings', 'UsersController@followings')->name('users.followings');
+            Route::get('followers', 'UsersController@followers')->name('users.followers');
+            Route::post('favorite', 'UserFavoriteController@store')->name('user.favorite');
+            Route::delete('unfavorite', 'UserFavoriteController@destroy')->name('user.unfavorite');
+            Route::get('favoritings', 'UsersController@favoritings')->name('user.favoritings');
+            Route::get('withdrawal', 'UsersController@withdrawal')->name('users.withdrawal');
+        });
+
+        Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy', 'update']]);
     });
-
-    Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy','update']]);
 });

@@ -76,4 +76,49 @@ class UsersController extends Controller
 
         return view('users.favoritings', $data);
     }
+
+    public function edit($id)
+    {
+        $data = [];
+        $user = User::find($id);
+
+        $data = [
+            'user' => $user,
+        ];
+
+        return view('users.edit',$data);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $this->validate($request,[
+            'name' => 'required|max:191',
+            'email' => 'required|max:191',
+        ]);
+
+        $user = \App\User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->age = $request->age;
+        $user->address = $request->address;
+        $user->profile = $request->profile;
+        $user->save();
+
+        return redirect('/');
+    }
+
+    public function destroy($id)
+    {
+        $user = \App\User::find($id);
+        if (\Auth::id() === $user->id) {
+            $user->delete();
+        }
+
+        return redirect('/');
+    }
+
+    public function withdrawal()
+    {
+        return view('users.delete');
+    }
 }
