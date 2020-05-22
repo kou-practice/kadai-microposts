@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'MicropostsController@index'); //上書き
+Route::get('/', 'MicropostsController@index');
 
 //ユーザ登録
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup.get');
@@ -22,7 +22,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
-// ユーザ機能
+// ユーザ機能　全権限で利用可
 Route::group(['middleware' => ['auth','can:user-higher']],function() {
     Route::group(['middleware' => 'auth'], function () {
         Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'update', 'edit', 'destroy']]);
