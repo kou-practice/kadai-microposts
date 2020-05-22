@@ -37,5 +37,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('user-higher', function ($user) {
             return ($user->role > 0 && $user->role <= 10);
         });
+
+        //凍結されていないユーザのみに許可
+        Gate::define('not-freeze', function ($user) {
+            return ($user->freeze != 1);
+        });
 }
 }

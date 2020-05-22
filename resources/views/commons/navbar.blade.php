@@ -20,6 +20,10 @@
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
                             <li class="dropdown-item">{!! link_to_route('users.withdrawal','Withdrawal',['id' => Auth::id()]) !!}</li>
+                            @can('admin-higher')
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item">{!! link_to_route('admin.index', 'User Management', []) !!}</li>
+                            @endcan
                         </ul>
                     </li>
                 @else

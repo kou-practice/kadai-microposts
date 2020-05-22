@@ -7,6 +7,7 @@
                 @include('users.card', ['user' => Auth::user()])
             </aside>
             <div class="col-sm-8">
+                @can ('not-freeze')
                 @if (Auth::id() == $user->id)
                     {!! Form::open(['route' => 'microposts.store']) !!}
                         <div class="form-group">
@@ -15,6 +16,7 @@
                         </div>
                     {!! Form::close() !!}
                 @endif
+                @endcan
                 @if (count($microposts) > 0)
                     @include('microposts.microposts', ['microposts' => $microposts])
                 @endif

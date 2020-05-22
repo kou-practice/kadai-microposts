@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\AdminHigherController;
+
 Route::get('/', 'MicropostsController@index');
 
 //ユーザ登録
@@ -23,7 +25,7 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 // ユーザ機能　全権限で利用可
-Route::group(['middleware' => ['auth','can:user-higher']],function() {
+Route::group(['middleware' => ['auth','can:user-higher']], function() {
     Route::group(['middleware' => 'auth'], function () {
         Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'update', 'edit', 'destroy']]);
 
@@ -39,6 +41,20 @@ Route::group(['middleware' => ['auth','can:user-higher']],function() {
             Route::get('withdrawal', 'UsersController@withdrawal')->name('users.withdrawal');
         });
 
-        Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy', 'update']]);
+        Route::resource('microposts', 'MicropostsController', ['only' => ['destroy', 'update']]);
+
+        //凍結されていない場合のみ、POSTを投稿できる
+        Route::group(['middleware' => ['auth', 'can:not-freeze']], function() {
+            Route::resource('microposts', 'MicropostsController', ['only' =>['store']]);
+        });
+    });
+});
+
+//管理者以上の権限を持つ場合のみ利用可能
+Route::group(['middleware' => ['auth', 'can:admin-higher']], function() {
+    Route::resource('admin', 'AdminHigherController');
+    Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('freeze', 'AdminHigherController@freeze')->name('admin.freeze');
+        Route::post('unzip', 'AdminHigherController@unzip')->name('admin.unzip');
     });
 });
