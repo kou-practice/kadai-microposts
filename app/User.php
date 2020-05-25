@@ -129,7 +129,6 @@ class User extends Authenticatable
             //お気に入りに登録していなければなにもしない
             return false;
         }
-
     }
 
     public function is_favoriting($micropostId)

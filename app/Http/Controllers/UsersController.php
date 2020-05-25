@@ -21,14 +21,11 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
-
         $data = [
             'user' => $user,
             'microposts' => $microposts,
         ];
-
         $data += $this->counts($user);
-
         return view('users.show', $data);
     }
 
@@ -36,12 +33,10 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $followings = $user->followings()->paginate(10);
-
         $data = [
             'user' => $user,
             'users' => $followings,
         ];
-
         $data += $this->counts($user);
 
         return view('users.followings', $data);
@@ -51,12 +46,10 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $followers = $user->followers()->paginate(10);
-
         $data = [
             'user' => $user,
             'users' => $followers,
         ];
-
         $data += $this->counts($user);
 
         return view('users.followers', $data);
@@ -66,12 +59,10 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $favoritings = $user->favoritings()->orderBy('created_at', 'desc')->paginate(10);
-
         $data = [
             'user' => $user,
             'favoritings' => $favoritings,
         ];
-
         $data += $this->counts($user);
 
         return view('users.favoritings', $data);
@@ -81,7 +72,6 @@ class UsersController extends Controller
     {
         $data = [];
         $user = User::find($id);
-
         $data = [
             'user' => $user,
         ];
@@ -95,7 +85,6 @@ class UsersController extends Controller
             'name' => 'required|max:191',
             'email' => 'required|max:191',
         ]);
-
         $user = \App\User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;

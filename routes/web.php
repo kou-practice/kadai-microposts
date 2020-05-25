@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth','can:user-higher']], function() {
         });
 
         Route::resource('microposts', 'MicropostsController', ['only' => ['destroy', 'update']]);
+        Route::post('search', 'MicropostsController@search')->name('microposts.search');
 
         //凍結されていない場合のみ、POSTを投稿できる
         Route::group(['middleware' => ['auth', 'can:not-freeze']], function() {

@@ -25,7 +25,6 @@ class CreateUserFollowTable extends Migration
 
             // user_idとfollow_idの組み合わせの重複を許さない
             $table->unique(['user_id', 'follow_id']);
-
         });
     }
 
